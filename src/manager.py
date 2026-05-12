@@ -70,5 +70,28 @@ class Manager:
                 total_due_pln=apartment_settlement.total_due_pln / len(tenants_in_apartment)
             )
         for tenant in tenants_in_apartment ] 
+
+    def get_annual_report(self, apartment_key: str, year: int) -> dict:
+
+        total_koszty = sum(bill.amount_pln for bill in self.bills if bill.settlement_year == year)
+        total_przelewy = sum(transfer.amount_pln for transfer in self.transfers if transfer.settlement_year == year)
+        
+        return {
+            'year': year,
+            'total_costs_pln': total_koszty,
+            'total_revenues_pln': total_przelewy,
+            'balance_pln': total_przelewy - total_koszty
+        }
     
-    
+
+    def get_tax(year : int, month : int, tax_rate : float):
+        suma = 0
+        transfers = []
+        for przelew in transfers:
+            if year == przelew.settlement_year and month == przelew.settlement_month:
+                suma += przelew.ammount_pln
+        
+        return suma*tax_rate
+
+
+
